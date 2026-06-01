@@ -7,7 +7,7 @@ app = Flask(__name__)
 requests_count = 0
 start_time = time.time()
 
-@app.before_request()
+@app.before_request
 def requests_counter():
     global requests_count
     requests_count += 1
@@ -39,6 +39,6 @@ def metric():
     up_time = int(time.time() - start_time)
     return {
         "requests": requests_count, 
-        "uptime": up_time
+        "uptime": f"{up_time} seconds"
         }, 200
 
