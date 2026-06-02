@@ -16,12 +16,39 @@ This project was built to simulate enterprise environments, I wanted to learn ho
 <h1>Decisions<h1>
 
 <h1>Challenges<h1>
-//docker build -t infra-lab .
-ERROR: permission denied while trying to connect to the docker API at unix:///var/run/docker.sock//
+//////////////////////////////////////////////////////////////////////////////////////////
+docker build -t infra-lab .
+ERROR: permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
 
-//ERROR: failed to build: failed to solve: 3.14-slim-bookworm: failed to resolve source metadata for docker.io/library/3.14-slim-bookworm:latest: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed//
+Solution: Had to assume root user permissions
+//////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////////////////
+ERROR: failed to build: failed to solve: 3.14-slim-bookworm: failed to resolve source metadata for docker.io/library/3.14-slim-bookworm:latest: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
 
+Solution: Fixed base image tag on DOCKERFILE
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+84.58 WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NameResolutionError("HTTPSConnection(host='pypi.org', port=443): Failed to resolve 'pypi.org' ([Errno -3] Temporary failure in name resolution)")': /simple/blinker/
+96.92 ERROR: Could not find a version that satisfies the requirement blinker==1.9.0 (from versions: none)
+96.92 ERROR: No matching distribution found for blinker==1.9.0
+------
+WARNING: current commit information was not captured by the build: failed to read current commit information with git rev-parse --is-inside-work-tree
+Dockerfile:7
+--------------------
+   5 |     COPY flask-app/app.py .
+   6 |     
+   7 | >>> RUN pip install --no-cache-dir -r requirements.txt
+   8 |     EXPOSE 5000
+   9 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+
+Solution: Pinged from ubuntu to check ubuntu connectivity, success. ran a docker image and then added a python command to it to check container DNS and then check if it could connect to directly to an ip. Neither command worked, Container wasn't connecting. Checked ip route on the linux machine, noticed there was no route for the bridge subnet. Checked the docker bridge existed and actually had a subnet with docker network ls and then docker network inspect bridge. It existed and had a subnet. Restarted the docker service to see if it would add the route and it did. retested container connetivity, success. 
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 <h1>Setup<h1>
 
