@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/config.sh"
 
-if [[ "$docker inspect -f '{{.State.Running}}' "$NAME" 2>/dev/null)" == "true" ]]; then
+if [[ "$(docker inspect -f '{{.State.Running}}' $NAME 2>/dev/null)" == "true" ]]; then
     echo "PASS: Container $NAME is running"
 else
     echo "FAIL: Container $NAME is not running"
@@ -30,7 +30,7 @@ sudo systemctl is-active --quiet nginx
 echo "PASS: Nginx is active"
 
 echo "Would you like to test the api endpoints? (y/n)"
-read TEST
+read -r TEST
 
 ENDPOINTS=(
     "/"
@@ -46,5 +46,5 @@ while [ "$TEST" == "y" ]; do
         sleep 0.5
     done
 	echo "Would you like to test the endpoints again? (y/n)"
-	read TEST
+	read -r TEST
 done
