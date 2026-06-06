@@ -14,7 +14,7 @@ Instead of focusing only on application code, the project explores how an app is
 
 - **Containerised runtime with Docker:** packaged the app, dependencies, exposed port, and startup command into a reproducible image so the same build can run consistently across CI and compatible Linux AMD64 deployment environments.
 
-blah.
+
 
 
 
