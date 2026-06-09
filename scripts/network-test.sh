@@ -22,7 +22,6 @@ else
 fi
 
 # Check if the docker0 interface has an IPv4 address assigned.
-echo
 echo "[2] Checking IPv4 address of docker0 interface:"
 if ip -4 addr show docker0 2>/dev/null | grep -q "inet "; then
     echo "PASS: docker0 interface has an IPv4 address"
@@ -47,8 +46,40 @@ fi
 
 
 ### CONTAINER NETWORK STATE ###
-# Confirms the running container has an IP address and a default route.
-# This verifies the container's network namespace is configured.
+
+echo "== Container network state =="
+
+# Check if the container exists and is running.
+echo "[1] Checking container exists:"
+if sudo docker ps --format '{{.Names}}' | grep -qx "$NAME"; then
+    echo "PASS: Container '$NAME' is running"
+else
+    echo "FAIL: Container '$NAME' is not running"
+    echo "Meaning: The container may not have started successfully, or may have exited due to an error."
+    exit 1
+fi
+
+# Check if the container has any port mappings.
+echo "[2] Checking container port mapping:"
+if sudo docker port "$NAME" 2>/dev/null | grep -q .; then
+    echo "PASS: Container '$NAME' has port mappings"
+    sudo docker port "$NAME"
+else
+    echo "FAIL: Container '$NAME' does not have any port mappings"
+    echo "Meaning: The container may be running, but may not be accessible from the host or Nginx due to missing port mappings."
+    exit 1
+fi
+
+# Check if the container is connected to a network and has an IP address.
+echo "[3] Checking container networks and IP addresses:"
+if sudo docker inspect "$NAME" --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null | grep -q .; then
+    echo "PASS: Container '$NAME' is connected to a network and has an IP address"
+    sudo docker inspect "$NAME" --format '{{range $network, $config := .NetworkSettings.Networks}}Network={{$network}}{{println}}Gateway={{$config.Gateway}}{{println}}IP={{$config.IPAddress}}{{println}}MAC={{$config.MacAddress}}{{println}}{{end}}'
+else
+    echo "FAIL: Container '$NAME' is not connected to any network or does not have an IP address"
+    echo "Meaning: The container may not be attached to a Docker network, or Docker network assignment failed."
+    exit 1
+fi
 
 ### EGRESS TESTS ###
 # Confirms the VM and container can reach the public internet by IP.
