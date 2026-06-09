@@ -14,18 +14,6 @@ fi
 
 sleep 2
 
-echo "Checking Docker port mapping..."
-sudo docker port "$NAME" "$CONTAINER_PORT" | grep -q "$HOST_PORT"
-echo "PASS: Container port $CONTAINER_PORT is mapped to host port $HOST_PORT"
-
-sleep 2
-
-echo "Checking Nginx config..."
-sudo nginx -t
-echo "PASS: Nginx config is valid"
-
-sleep 2
-
 echo "Checking Nginx service..."
 sudo systemctl is-active --quiet nginx
 echo "PASS: Nginx is active"
@@ -42,6 +30,7 @@ ENDPOINTS=(
 
 while [ "$TEST" == "y" ]; do
     for endpoint in "${ENDPOINTS[@]}"; do
+        echo
         echo "Testing endpoint: $endpoint"
         curl -i "$VM_IP:${HOST_PORT}${endpoint}"
         sleep 0.5

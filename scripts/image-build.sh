@@ -7,6 +7,7 @@ source "$SCRIPT_DIR/config.sh"
 
 cd "$SCRIPT_DIR/.."
 
+echo "Building Docker image with tag $TAG..."
 if sudo docker build -t $TAG . ;
     then
         echo "Docker image built successfully with tag $TAG"
