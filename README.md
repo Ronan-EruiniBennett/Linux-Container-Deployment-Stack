@@ -1,8 +1,8 @@
-[![Docker Image CI](https://github.com/Ronan-EruiniBennett/Infrastructure_operations_lab/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Ronan-EruiniBennett/Infrastructure_operations_lab/actions/workflows/docker-image.yml)
+[![Docker Image CI](https://github.com/Ronan-EruiniBennett/Linux-Container-Service-Deployment-Stack/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Ronan-EruiniBennett/Linux-Container-Service-Deployment-Stack/actions/workflows/docker-image.yml)
 
-# Linux Container Service Deployment Stack
+# Linux Networking & Containerised Service Deployment
 
-A Linux-based deployment stack for operating a containerised web service behind Nginx, with Docker port mappings, firewall controls, SSH administration, and automated network-path validation.
+A self-hosted Linux environment for deploying, routing, securing, and validating a containerised Flask/Gunicorn service through Docker, Nginx, UFW, SSH, and Bash automation.
 
 ## Project Overview
 
@@ -105,6 +105,7 @@ flowchart TD
 
 ## Challenges
 
+
 ### Diagnosing Docker Container Networking After VM Resume
 
 **Symptom:** Pip install failure for `requirements.txt` on Docker image build as docker couldn't resolve or reach external package repositories
@@ -124,6 +125,8 @@ Suspending the VM and resuming it without completely powering it off likely caus
 **Resolution:**
 
 Restarted the Docker service to restore connectivity to containers, and going forward I’ll fully power off the VM instead of relying on suspend/resume when Docker networking is active.
+
+
 
 ### Validating Nginx Reverse Proxy Configuration
 
