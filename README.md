@@ -38,4 +38,15 @@ Restarted the Docker service to restore connectivity to containers, and going fo
 
 ### Validating Nginx Reverse Proxy Configuration
 
-After applying new Nginx configuration files, the browser could not reach the app. Rather than debugging only from the browser, I validated the configuration with `nginx -t` and found directive syntax errors. This reinforced the importance of validating service configuration before deployment, particularly because a broken entry point can take an application offline.
+**Symptom:** Browser couldn't reach the application through Nginx after new configuration file changes
+
+**Investigation:**
+
+* Examined Nginx status on the VM
+* Validated configuration with `nginx -t`
+
+**Likely Root Cause:**
+There were directive syntax errors in the configuration file I created, so Nginx could not safely reload the new configuration and proxy traffic to my backend correctly.
+
+**Resolution:**
+Corrected the syntax errors identified by `nginx -t`. Moving forward, this reinforced the importance of validating all configuration and code before deployment, especially when changes affect the application's entry point.
