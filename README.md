@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/Ronan-EruiniBennett/Infrastructure_operations_lab/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Ronan-EruiniBennett/Infrastructure_operations_lab/actions/workflows/docker-image.yml)
+
 # Infrastructure Operations Lab
 
 A self-hosted infrastructure operations lab for deploying, monitoring, and troubleshooting containerised services on Linux using Docker, Nginx, Flask, Gunicorn, and Bash.
