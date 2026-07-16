@@ -1,0 +1,2 @@
+-- TODO: define the heartbeats table and a supporting index.
+-- See chat for the column/type reasoning.
