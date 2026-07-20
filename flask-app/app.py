@@ -1,7 +1,12 @@
 from flask import Flask, request
 import time
+import os
+import psycopg2
 
 app = Flask(__name__)
+
+def get_db_connection():
+    return psycopg2.connect(os.environ['DATABASE_URL'])
 
 #################################################
 # APP specific meta data endpoints
