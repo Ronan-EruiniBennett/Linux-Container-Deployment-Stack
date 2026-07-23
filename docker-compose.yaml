@@ -1,4 +1,13 @@
 services:
+
+  server_emulator:
+    build: ./server_emulator
+    environment:
+      TARGET_URL: "http://flask:5000/server/data"
+    depends_on:
+      flask:
+        condition: service_healthy
+
   flask:
     build: .
     ports: 
@@ -8,6 +17,11 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   postgres:
     image: postgres:18-alpine
